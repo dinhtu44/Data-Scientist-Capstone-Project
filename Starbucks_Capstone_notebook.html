@@ -16438,6 +16438,35 @@ effective_offer
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-scores-evaluation-for-models.">The scores evaluation for models.<a class="anchor-link" href="#The-scores-evaluation-for-models.">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To analyse and evalaute the performance of model, we have to refer to the formula for Precision, Recall and F1 score:</p>
+<p><strong>Recall or Sensitivity or TPR (True Positive Rate):</strong></p>
+<p>According to sklearn documentation, the recall is intuitively the ability of the classifier to find all the positive samples.</p>
+<p>Number of items correctly identified as positive out of total true positives: True Positives /(True Positives +False Negatives)</p>
+<p><strong>Precision:</strong></p>
+<p>According to the sklearn documentation, it is intuitively the ability of the classifier not to label as positive a sample that is negative.</p>
+<p>Number of items correctly identified as positive out of total items identified as positive: True Positives /(True Positives + False Positives)</p>
+<p><strong>F1 Score:</strong></p>
+<p>Since my F-beta score is F1 with beta=1, I am weighting recall and precision as equally important.</p>
+<p>The formula is given by the harmonic mean of precision and recall:  F1 = 2<em>Precision</em>Recall/(Precision + Recall)</p>
+<p>We can see that the F1 scores for DT outperformed RF slightly, but both are lower than the accuracy. This would indicate that DT model is doing slightly better compared to RF at not misclassifying negative events as positive (meaning, misclassifying people on which offers are ineffective, as people on which offers would be effective).</p>
+<p>The difference in F1 score vs accuracy indicate that there could are instances where both models are falsely classifying negatives as positives, likely due to the imbalance of classes. But the overall higher recall/accuracy compared to F1 score indicates that the model is predicting the positive case (i.e. where an offer is effective) more accurately compared to predicting the negative cases (i.e. where an offer is ineffective), which is expected given the uneven classes..</p>
+<p>We are perhaps not as concerned with these misclassification since we don't mind sending people more offers than they would have liked; we would rather not miss anyone on which an offer would have been effective.</p>
+<p>Given this case, I will still go with the RF model.</p>
+<p>We analyse the drivers of an effective offer, I will check the feature importances for the models after I have selected the best model from refinement.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="a.-BOGO-offers-model">a. BOGO offers model<a class="anchor-link" href="#a.-BOGO-offers-model">&#182;</a></h4><p>I initialize the models with some randomly chosen parameters to check the initial performance.</p>
 <p>If performance needs to be improved further, I will attempt Grid Search to find the optimal parameters.</p>
 
@@ -20451,6 +20480,15 @@ Test accuracy:-0.9277
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>Overall, when analysing and building the machine learning models to answer the above questions, reflections on my main challenges and findings are as follows:</p>
+<h4 id="Potential-current-solution-discussion">Potential current solution discussion<a class="anchor-link" href="#Potential-current-solution-discussion">&#182;</a></h4><p>The feature importance given by all 3 models were that the tenure of a member is the biggest predictor of the effectiveness of an offer. Further study would be able to indicate what average tenure days would result in an effective BOGO offer.</p>
+<p>For all three models, the top 3 variables were the same - membership tenure, income and age.
+However, the income and age switched orders depending on offer type.</p>
+<p>For BOGO and discount offers, the distribution of feature importances were relatively equal. However, for informational offers, the distribution is slightly more balanced, with income the second most important variable.</p>
+<p>We decise using 3 separate models to predict the effectiveness of each offer type ended up with good accuracy for the BOGO and discount models (82.83% for BOGO and 87.35% for discount), while slightly less accurate performance for informational offers (75.3%).
+We would regard 75% as acceptable in a business setting, as for informational offers, there is no cost involved to inform users of a product.</p>
+<p>-&gt; Meanwhile, for BOGO and discount models, 
+We are quite happy with the 80% and above accuracy, as in a business setting that would be acceptable to show offers to people, even if the model misclassifies a few, the overall revenue increase might justify the few mistakes.</p>
+<p>So our our potential solution, when analysing and building the machine learning models to answer the above questions, reflections on my main challenges and findings are as the following:</p>
 <h4 id="Attribution-framework-for-assigning-offer_ids-for-transactions:">Attribution framework for assigning offer_ids for transactions:<a class="anchor-link" href="#Attribution-framework-for-assigning-offer_ids-for-transactions:">&#182;</a></h4><p>In order to answer Question 1, I had to first define what an 'effective offer' means using the transactional records. This proved to be the trickiest portion of the project. I had to define a funnel for what what an effective conversion would look like, as we had data on both effective and noneffective conversions.</p>
 <p>I ended up having to separate the users into 4 different pools, based on their actions in the transcript data:</p>
 <ul>
@@ -20476,6 +20514,19 @@ Test accuracy:-0.9277
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
     </div>
   </div>

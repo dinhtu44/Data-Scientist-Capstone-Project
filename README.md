@@ -42,8 +42,7 @@ Data for coding project was provided by Udacity.
 
 ## References
 
-### [The code on GitHub repo can be found here](https://github.com/dinhtu44/Data-Scientist-Capstone-Project).
+### The code on GitHub repo can be found [here](https://github.com/dinhtu44/Data-Scientist-Capstone-Project).
 
 ### Medium Blog Post for this project present
-
 The main findings of the project can be found at the Medium Blog post available [here](https://medium.com/@18521589/starbucks-offers-for-sending-smart-ways-71c6949089c)
